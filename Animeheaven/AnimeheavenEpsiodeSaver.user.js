@@ -97,11 +97,9 @@ function addEpisodeBox(){
     'use strict';
     var currentUrl = window.location.href;
     console.log(currentUrl);
-    if(currentUrl == "http://animeheaven.eu/"){
-        addEpisodeBox();
-    }
     if(currentUrl.substr(0,28) == "http://animeheaven.eu/i.php?"){
         console.log("Overview Page");
+        addEpisodeBox();
         let overviewName = getName();
         let storedList = JSON.parse(localStorage.getItem("animeList"));
         //get Anime out of list
@@ -125,8 +123,7 @@ function addEpisodeBox(){
             }
         }
 
-    }
-    if(currentUrl.substr(0,32) == "http://animeheaven.eu/watch.php?"){
+    } else if(currentUrl.substr(0,32) == "http://animeheaven.eu/watch.php?"){
         console.log("Episode Page");
         var episodeName = getName();
         var episodeNr = getEpisode();
@@ -150,5 +147,7 @@ function addEpisodeBox(){
             storedList[length] = {name:episodeName, episode:episodeNr};
             localStorage.setItem("animeList", JSON.stringify(storedList));
         }
+    } else if(currentUrl.substr(0, 32) != "http://animeheaven.eu/staff.php"){
+        addEpisodeBox();
     }
 })();
