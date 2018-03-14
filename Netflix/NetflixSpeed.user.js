@@ -17,16 +17,8 @@ function setEvents(video){
         }
     };
 
-    //Safe volume
-    video.onvolumechange = function() {
-        localStorage.setItem("volume", video.volume);
-    };
-
     //Set volume and playbackrate as soon as video starts playing
     video.onplaying = function() {
-        if (localStorage.getItem("volume") !== null){
-            video.volume = localStorage.getItem("volume");
-        }
         if (localStorage.getItem("playrate") !== null){
             video.playbackRate = localStorage.getItem("playrate");
         }
@@ -34,9 +26,6 @@ function setEvents(video){
 }
 
 function setSettings(video){
-    if (localStorage.getItem("volume") !== null){
-        video.volume = localStorage.getItem("volume");
-    }
     if (localStorage.getItem("playrate") !== null){
         video.playbackRate = localStorage.getItem("playrate");
     }

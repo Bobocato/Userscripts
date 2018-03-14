@@ -30,7 +30,9 @@
                 if(links[i].children.length > 1 && links[i].className == "nf-icon-button nf-flat-button nf-flat-button-primary"){
                     var smallOutro = links[i];
                     console.log(links[i]);
-                    smallOutro.click();
+                    if(smallOutro.parentElement.className != "PromotedVideo-actions"){
+                        smallOutro.click();
+                    }
                 }
             }
         }
