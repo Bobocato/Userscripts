@@ -28,11 +28,6 @@ function fullscreen(){
     var playpause = video.paused;
     controlElement = remove(document.getElementsByClassName("con")[0]);
     videoElement = remove(video);
-    let k =0;
-    while (document.getElementsByTagName("BODY")[0].firstChild){
-        bodyElements[k] =  remove(document.getElementsByTagName("BODY")[0].firstChild);
-        k++;
-    }
     //Black background
     let black = document.createElement("DIV");
     black.id = "black";
@@ -41,6 +36,24 @@ function fullscreen(){
     black.style.left = "0";
     black.style.width = window.innerWidth + "px";
     black.style.height = window.innerHeight + "px";
+    //Epsiode Buttons for Autoplay
+    var next = document.getElementsByClassName("next2");
+    if(next.length > 0){
+        var nextBtn = next[0].parentElement.cloneNode(true);
+        black.appendChild(nextBtn);
+    }
+    var prev = document.getElementsByClassName("prew2");
+    if(prev.length > 0){
+        var prevBtn = prev[0].parentElement.cloneNode(true);
+        black.appendChild(prevBtn);
+    }
+    let k =0;
+    while (document.getElementsByTagName("BODY")[0].firstChild){
+        bodyElements[k] =  remove(document.getElementsByTagName("BODY")[0].firstChild);
+        k++;
+    }
+
+
     document.getElementsByTagName("BODY")[0].appendChild(black);
     document.getElementsByTagName("BODY")[0].appendChild(videoElement);
     document.getElementsByTagName("BODY")[0].appendChild(controlElement);
@@ -99,7 +112,7 @@ function normalscreen(){
     controls.style.left= "";
     controls.style.width = "";
     controls.style.zIndex = "";
-    controls.style.opacity = "100";
+    controls.style.opacity = "";
     controls.removeEventListener("mouseenter",setControlOpacity1, false);
     controls.removeEventListener("mouseleave", setControlOpacity0, false);
     var conchi = controls.children;
