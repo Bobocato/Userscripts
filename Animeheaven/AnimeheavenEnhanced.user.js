@@ -33,6 +33,15 @@ function fullscreen(){
         bodyElements[k] =  remove(document.getElementsByTagName("BODY")[0].firstChild);
         k++;
     }
+    //Black background
+    let black = document.createElement("DIV");
+    black.id = "black";
+    black.style.backgroundColor = "#000000";
+    black.style.top = "0";
+    black.style.left = "0";
+    black.style.width = window.innerWidth + "px";
+    black.style.height = window.innerHeight + "px";
+    document.getElementsByTagName("BODY")[0].appendChild(black);
     document.getElementsByTagName("BODY")[0].appendChild(videoElement);
     document.getElementsByTagName("BODY")[0].appendChild(controlElement);
     if(!playpause) video.play();
@@ -67,6 +76,7 @@ function fullscreen(){
 function normalscreen(){
     //Domscripting for reset
     var playpause = video.paused;
+    remove(document.getElementById("black"));
     controlElement = remove(document.getElementsByClassName("con")[0]);
     videoElement = remove(video);
     for(let i = 0; i < bodyElements.length; i++){
