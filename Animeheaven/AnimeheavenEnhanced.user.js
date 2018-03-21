@@ -7,15 +7,36 @@
 // @grant        none
 // ==/UserScript==
 
+var videoElement;
+var controlElement;
+var bodyElements = [];
+
+function remove(element) {
+    return element.parentNode.removeChild(element);
+}
+
 function setControlOpacity0(){
-    document.getElementById("controls").style.opacity = "0";
+    document.getElementsByClassName("con")[0].style.opacity = "0";
 }
 
 function setControlOpacity1(){
-    document.getElementById("controls").style.opacity = "1";
+    document.getElementsByClassName("con")[0].style.opacity = "1";
 }
 
 function fullscreen(){
+    //Domscripting for Fullscreen
+    var playpause = video.paused;
+    controlElement = remove(document.getElementsByClassName("con")[0]);
+    videoElement = remove(video);
+    let k =0;
+    while (document.getElementsByTagName("BODY")[0].firstChild){
+        bodyElements[k] =  remove(document.getElementsByTagName("BODY")[0].firstChild);
+        k++;
+    }
+    document.getElementsByTagName("BODY")[0].appendChild(videoElement);
+    document.getElementsByTagName("BODY")[0].appendChild(controlElement);
+    if(!playpause) video.play();
+    //CSS
     video.style.position = "fixed";
     video.style.top = "0";
     video.style.left = "0";
@@ -23,10 +44,13 @@ function fullscreen(){
     video.style.height = "100%";
     video.style.maxHeight = "5000px";
     video.controls = true;
-    controls = document.getElementById("controls");
+    controls = controlElement;
+    //controls = document.getElementsByClassName("con")[0];
     controls.style.position = "absolute";
     controls.style.bottom = "15px";
-    controls.style.left= "auto";
+    let left = (window.innerWidth - controls.clientWidth) /2;
+    controls.style.left = left + "px";
+    controls.style.width = "66%";
     controls.style.zIndex = "1000";
     controls.style.opacity = "0";
     controls.addEventListener("mouseenter", setControlOpacity1, false);
@@ -36,10 +60,22 @@ function fullscreen(){
         conchi[i].addEventListener("mouseenter", setControlOpacity1, false);
         conchi[i].addEventListener("mouseleave", setControlOpacity0, false);
     }
+
 }
 
 
 function normalscreen(){
+    //Domscripting for reset
+    var playpause = video.paused;
+    controlElement = remove(document.getElementsByClassName("con")[0]);
+    videoElement = remove(video);
+    for(let i = 0; i < bodyElements.length; i++){
+        document.getElementsByTagName("BODY")[0].appendChild(bodyElements[i]);
+    }
+    document.getElementById("videocon").insertBefore(videoElement, document.getElementById("controls"));
+    document.getElementById("controls").children[0].children[0].appendChild(controlElement);
+    if(!playpause) video.play();
+    //CSS
     video.style.position = "";
     video.style.top = "";
     video.style.left = "";
@@ -47,12 +83,13 @@ function normalscreen(){
     video.style.height = "";
     video.style.maxHeight = "";
     video.controls = false;
-    controls = document.getElementById("controls");
+    controls = controlElement;
     controls.style.position = "";
     controls.style.bottom = "";
     controls.style.left= "";
+    controls.style.width = "";
     controls.style.zIndex = "";
-    controls.style.opacity = "";
+    controls.style.opacity = "100";
     controls.removeEventListener("mouseenter",setControlOpacity1, false);
     controls.removeEventListener("mouseleave", setControlOpacity0, false);
     var conchi = controls.children;
@@ -60,6 +97,7 @@ function normalscreen(){
         conchi[i].removeEventListener("mouseenter", setControlOpacity1, false);
         conchi[i].removeEventListener("mouseleave", setControlOpacity0, false);
     }
+
 }
 
 function epsiodeSkip(kind){
@@ -104,13 +142,8 @@ var autoplayEnd = true;
     console.log("Jump to script");
     var video = document.getElementById("videodiv");
     autoplayEnd = true;
-    //General Changes
-    if(localStorage.getItem("fullscreen") === "true"){
-        fullscreen();
-    }
-
     //UI
-    var resoBox = document.getElementsByClassName("centerf2")[0];
+    var resoBox = document.getElementsByClassName("cleft")[3];
     var controls = document.createElement("div");
     controls.innerHTML = '<br> <input style="width:15px;" type="radio" id="radioEnd" name="kind" value="end" checked><label for="radioend" style="color:white">Skip at the End </label><br><input style="width:15px" type="radio" id="radioTime" name="kind" value="timer"><label for="radioTime" style="color:white;">Skip beforehand with Timer</label><input style="width:67px" type="number" id="tts" name="tts" min="1" placeholder="Seconds"><br><input style="width:15px;" type="radio" id="fullscreenCheck" name="fullscreen" value="full"><label for="fullscreen" style="color:white">Set Fullscreen automatically</label><br><input style="width:30px" type="button" id="setBtn" value="set">';
     if(localStorage.getItem("autoplay") == "end"){
@@ -151,6 +184,12 @@ var autoplayEnd = true;
             localStorage.removeItem("fullscreen");
         }
     });
+    //General Changes
+    if(localStorage.getItem("fullscreen") === "true"){
+        fullscreen();
+        video.play();
+    }
+
     //Autoplay
     //At the End
     video.onended = function() {
