@@ -3,15 +3,10 @@ A simple userscript that enables autoplay, auto fullscreen and keyboard controls
 
 ## Autoplay 
 When the episode ends the next one will be loaded automatically. <br>
-The skip will happen at the end of an episode or when the set timer is reached.
-
-<b>For it to work you have to set it at least once.</b>
 
 ## Fullscreen
-Once you hit the "fullscreen" box and save it or press "v", the video will always be displayed on fullscreen. <br>
-To end this you have to press "v", or delete the "fullscreen" flag in the localStorage and reload the page. <br>
-The UI has to reload the Page to display the video in fullscreen. <br>
-When you use "v" there won't be any reloading.
+Once you press "v", the video will always be displayed on fullscreen. <br>
+To end this you have to press "v" again.
 
 ## Playbackrate
 If you have an option to change the playbackrate with an extension like <a href="https://github.com/igrigorik/videospeed">this</a> the speed you set will be stored an reapplied for the next video.
