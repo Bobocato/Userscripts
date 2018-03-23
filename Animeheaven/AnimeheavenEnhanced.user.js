@@ -8,7 +8,9 @@
 // ==/UserScript==
 
 function changeEpisode(url){
-    window.location.href = url;
+    if(typeof(url) != "undefined"){
+        window.location.href = url;
+    }
 }
 
 function setControlOpacity1(){
@@ -85,7 +87,9 @@ function normalscreen(){
     };
     //Safe Playback Rate
     video.onratechange = function() {
-        localStorage.setItem("playrate", video.playbackRate);
+        if(video.readyState === 4 ){
+            localStorage.setItem("playrate", video.playbackRate);
+        }
     };
     //Safe volume
     video.onvolumechange = function() {
