@@ -26,6 +26,7 @@ function addNewStyle(newStyle) {
 (function() {
     'use strict';
     addNewStyle('.tw-ellipsis {text-overflow:initial !important;}');
+    addNewStyle('.tw-ellipsis {word-wrap:break-word !important;}');
     addNewStyle('.tw-ellipsis {white-space:initial !important;}');
     addNewStyle('.pinned-cheer-v2 {display:none !important;}');
 })();

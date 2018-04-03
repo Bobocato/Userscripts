@@ -10,6 +10,8 @@
 function changeEpisode(url){
     if(typeof(url) != "undefined"){
         window.location.href = url;
+    } else {
+        normalscreen();
     }
 }
 
@@ -39,6 +41,7 @@ function fullscreen(){
     controlDiv.style.left = left + "px";
     controlDiv.addEventListener("mouseenter", setControlOpacity1, false);
     controlDiv.addEventListener("mouseleave", setControlOpacity0, false);
+    setControlOpacity0();
 }
 
 function normalscreen(){
@@ -85,12 +88,6 @@ function normalscreen(){
     video.onended = function() {
         changeEpisode(nextLink);
     };
-    //Safe Playback Rate
-    video.onratechange = function() {
-        if(video.readyState === 4 ){
-            localStorage.setItem("playrate", video.playbackRate);
-        }
-    };
     //Safe volume
     video.onvolumechange = function() {
         localStorage.setItem("volume", video.volume);
@@ -103,6 +100,10 @@ function normalscreen(){
         if (localStorage.getItem("playrate") !== null){
             video.playbackRate = localStorage.getItem("playrate");
         }
+        //Safe Playback Rate
+        video.onratechange = function() {
+            localStorage.setItem("playrate", video.playbackRate);
+        };
     };
     document.addEventListener("keydown", keyDownTextField, false);
     function keyDownTextField(e){
