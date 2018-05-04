@@ -15,15 +15,19 @@
     setInterval(function(){
         //Skip Ad
         var ad = document.getElementsByClassName("adSkipButton")[0];
-        if(ad.className.split(" ")[1] == "skippable"){
-            console.log("Skip that ad");
-            ad.click();
+        if(typeof(ad) != "undefined"){
+            if(ad.className.split(" ")[1] == "skippable"){
+                console.log("Skip that ad");
+                ad.click();
+            }
         }
         //Skip Outro
         var hoverOutro = document.getElementsByClassName("nextUpCard")[0];
         if(typeof(hoverOutro) != "undefined"){
-            console.log("Skip that Outro");
-            hoverOutro.click();
+            if(typeof(hoverOutro) != "undefined"){
+                console.log("Skip that Outro");
+                hoverOutro.click();
+            }
         }
     }, 1000);
 })();

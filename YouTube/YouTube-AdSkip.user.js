@@ -7,7 +7,7 @@
 // @grant        none
 // ==/UserScript==
 
-const equalText = "Überspringen";
+const equalText = "Skip Ad";
 
 function addNewStyle(newStyle) {
     var styleElement = document.getElementById('styles_js');

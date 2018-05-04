@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @version      1.0
 // @description  Automatically skip intro and outro on Netflix
-// @author       You
+// @author       Bobocato
 // @match        https://www.netflix.com/*
 // @grant        none
 // ==/UserScript==
