@@ -23,9 +23,13 @@ function setVideoSpeed(doc){
                 setVideoSpeed(iframe);
             }
         }
-        var videos = doc.getElementsByTagName("video");
-        for (let video of videos) {
-            video.playbackRate = speed;
+        try{
+            var videos = doc.getElementsByTagName("video");
+            for (let video of videos) {
+                video.playbackRate = speed;
+            }
+        } catch(err){
+            console.log(err);
         }
     }
 }
