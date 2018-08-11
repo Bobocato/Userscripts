@@ -9,11 +9,15 @@
 // @grant        none
 // ==/UserScript==
 
-var speed = 1.75;
+var speed = 1.5;
 
 var blacklist = ["www.youtube.com",
-                 "www.animeheaven.com",
-                 "www.twitch.tv"];
+                 "animeheaven.eu",
+                 "www.twitch.tv",
+                 "www.netflix.com",
+                 "www.amazon.com",
+                 "www.amazon.de",
+                 "ww8.kiss-anime.me"];
 
 function setVideoSpeed(doc){
     if(blacklist.indexOf(window.location.hostname) == -1){

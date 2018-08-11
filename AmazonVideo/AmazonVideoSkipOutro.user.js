@@ -21,6 +21,12 @@
                 ad.click();
             }
         }
+        //Skip Intro
+        var hoverIntro = document.getElementsByClassName("skipElement")[0];
+        if(typeof(hoverIntro) != "undefined"){
+                console.log("Skip that Intro");
+                hoverIntro.click();
+        }
         //Skip Outro
         var hoverOutro = document.getElementsByClassName("nextUpCard")[0];
         if(typeof(hoverOutro) != "undefined"){
