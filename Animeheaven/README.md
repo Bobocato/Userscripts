@@ -20,8 +20,8 @@ The voume you set will be saved an reapplied when you watch the next episode. Th
 "b" = previous episode <br>
 "v" = toggle fullscreen <br>
 "m" = skip ahead for 85 seconds (perfect for op and ed)<br>
-"s" = speed decreased by 0.1
-"d" = speed increased by 0.1
+"s" = speed decreased by 0.1<br>
+"d" = speed increased by 0.1<br>
 Arrow left = reverse 5 seconds <br>
 Arrow right = skip 5 seconds<br>
 Arrow up = volume + 5%<br>
