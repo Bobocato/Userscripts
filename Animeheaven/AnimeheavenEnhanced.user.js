@@ -199,6 +199,14 @@ function showEpisodeTitle(durationInSeconds, fadeDuration) {
                 case 78: // "n"
                     changeEpisode(nextLink);
                     break;
+                case 83: // "s"
+                    video.playbackRate = video.playbackRate = (Math.round((video.playbackRate - 0.1)*100)/100);
+                    console.log("Set video speed to: " + video.playbackRate);
+                    break;
+                case 68: // "d"
+                    video.playbackRate = video.playbackRate = (Math.round((video.playbackRate + 0.1)*100)/100);
+                    console.log("Set video speed to: " + video.playbackRate);
+                    break;
                 case 38: // "Arrow Up"
                     try {
                         video.volume = (Math.round((video.volume + 0.05) * 100)) / 100;

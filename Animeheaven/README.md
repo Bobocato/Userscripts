@@ -6,7 +6,8 @@ When the episode ends the next one will be loaded automatically. <br>
 
 ## Fullscreen
 Once you press "v", the video will always be displayed on fullscreen. <br>
-To end this you have to press "v" again.
+To end this you have to press "v" again.<br>
+When the next episode will load in fullscreen there will be a popup showing the current episode.
 
 ## Playbackrate
 If you have an option to change the playbackrate with an extension like <a href="https://github.com/igrigorik/videospeed">this</a> the speed you set will be stored an reapplied for the next video.
@@ -19,6 +20,8 @@ The voume you set will be saved an reapplied when you watch the next episode. Th
 "b" = previous episode <br>
 "v" = toggle fullscreen <br>
 "m" = skip ahead for 85 seconds (perfect for op and ed)<br>
+"s" = speed decreased by 0.1
+"d" = speed increased by 0.1
 Arrow left = reverse 5 seconds <br>
 Arrow right = skip 5 seconds<br>
 Arrow up = volume + 5%<br>
