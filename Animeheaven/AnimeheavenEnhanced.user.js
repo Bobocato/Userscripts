@@ -7,131 +7,137 @@
 // @grant        none
 // ==/UserScript==
 
-const DISPLAY_TITLE_DURATION = 4;
-const FADE_TITLE_DURATION = 1;
-
-function changeEpisode(url) {
-    if (typeof (url) != "undefined") {
-        window.location.href = url;
-    } else {
-        normalscreen();
-    }
-}
-
-function setControlOpacity1() {
-    document.getElementById("controls").style.opacity = "1";
-}
-
-function setControlOpacity0() {
-    document.getElementById("controls").style.opacity = "0";
-}
-
-function fullscreen() {
-    //Set fullscreen to style
-    //Video Style
-    var videoDiv = document.getElementById("videocon");
-    videoDiv.style.position = "fixed";
-    videoDiv.style.top = "0";
-    videoDiv.style.left = "0";
-    videoDiv.style.width = "100%";
-    videoDiv.style.height = "100%";
-    videoDiv.style.maxHeight = "5000px";
-    //Control Style
-    var controlDiv = document.getElementById("controls");
-    controlDiv.style.position = "absolute";
-    controlDiv.style.bottom = "15px";
-    let left = (window.innerWidth - controls.clientWidth) / 2;
-    controlDiv.style.left = left + "px";
-    controlDiv.addEventListener("mouseenter", setControlOpacity1, false);
-    controlDiv.addEventListener("mouseleave", setControlOpacity0, false);
-    setControlOpacity0();
-}
-
-function normalscreen() {
-    //Reset CSS
-    //Video Style
-    var videoDiv = document.getElementById("videocon");
-    videoDiv.style.position = "";
-    videoDiv.style.top = "";
-    videoDiv.style.left = "";
-    videoDiv.style.width = "";
-    videoDiv.style.height = "";
-    videoDiv.style.maxHeight = "";
-    //Control Style
-    var controlDiv = document.getElementById("controls");
-    controlDiv.style.position = "";
-    controlDiv.style.bottom = "";
-    let left = (window.innerWidth - controls.clientWidth) / 2;
-    controlDiv.style.left = "";
-    controlDiv.style.opacity = "";
-    controlDiv.removeEventListener("mouseenter", setControlOpacity1, false);
-    controlDiv.removeEventListener("mouseleave", setControlOpacity0, false);
-}
-
-function getName() {
-    let episodeName = document.getElementsByClassName("c")[0].textContent.split("\n")[0];
-    return episodeName;
-}
-
-function showEpisodeTitle(durationInSeconds, fadeDuration) {
-    // retrieve episode name
-    const name = getName();
-    // display episode name
-    let opacity = 0;
-    const containerDiv = document.createElement("div");
-    containerDiv.style.maxWidth = "32%";
-    containerDiv.style.paddingRight = "2em";
-    containerDiv.style.paddingLeft = "2em";
-    containerDiv.style.position = "fixed";
-    containerDiv.style.border = "1px solid #696969";
-    containerDiv.style.zIndex = "99999";
-    containerDiv.style.fontFamily = "sans-serif";
-    containerDiv.style.fontSize = "2.1em";
-    containerDiv.style.textAlign = "center";
-    containerDiv.style.marginTop = "2%";
-    containerDiv.style.marginLeft = "2%";
-    containerDiv.style.borderLeft = "0.5em solid #e81e30";
-    containerDiv.style.background = "linear-gradient(0deg,#333333, #505050)";
-    containerDiv.style.opacity = opacity.toString();
-    const episodeLabel = document.createElement("p");
-    episodeLabel.style.color = "white";
-    const textNode = document.createTextNode(name);
-    episodeLabel.appendChild(textNode);
-    containerDiv.appendChild(episodeLabel);
-    document.body.insertBefore(containerDiv, document.body.childNodes[0]);
-
-    // animate
-    let accumulatedTicks = 0;
-    const tickrate = 5;
-    const maxTickCount = Math.round(fadeDuration * 1000 / tickrate);
-
-    let fadeInTimer = setInterval(() => {
-        accumulatedTicks += tickrate;
-        if (accumulatedTicks >= fadeDuration * 1000) {
-            accumulatedTicks = 0;
-            clearInterval(fadeInTimer);
-            setTimeout(() => {
-                let fadeOutTimer = setInterval(() => {
-                    accumulatedTicks += tickrate;
-                    if (accumulatedTicks >= fadeDuration * 1000) {
-                        accumulatedTicks = 0;
-                        clearInterval(fadeOutTimer);
-                        containerDiv.style.display = "none";
-                    }
-                    opacity -= 1 / maxTickCount;
-                    containerDiv.style.opacity = opacity.toString();
-                }, tickrate);
-            }, durationInSeconds * 1000);
-        }
-        opacity += 1 / maxTickCount;
-        containerDiv.style.opacity = opacity.toString();
-    }, tickrate);
-}
-
-
 (function () {
     'use strict';
+
+    function changeEpisode(url) {
+        if (typeof (url) != "undefined") {
+            window.location.href = url;
+        } else {
+            normalscreen();
+        }
+    }
+
+    function setControlOpacity1() {
+        document.getElementById("controls").style.opacity = "1";
+    }
+
+    function setControlOpacity0() {
+        document.getElementById("controls").style.opacity = "0";
+    }
+
+    function fullscreen() {
+        //Set fullscreen to style
+        //Video Style
+        var videoDiv = document.getElementById("videocon");
+        videoDiv.style.position = "fixed";
+        videoDiv.style.top = "0";
+        videoDiv.style.left = "0";
+        videoDiv.style.width = "100%";
+        videoDiv.style.height = "100%";
+        videoDiv.style.maxHeight = "5000px";
+        //Control Style
+        var controlDiv = document.getElementById("controls");
+        controlDiv.style.position = "absolute";
+        controlDiv.style.bottom = "15px";
+        let left = (window.innerWidth - controls.clientWidth) / 2;
+        controlDiv.style.left = left + "px";
+        controlDiv.addEventListener("mouseenter", setControlOpacity1, false);
+        controlDiv.addEventListener("mouseleave", setControlOpacity0, false);
+        setControlOpacity0();
+    }
+
+    function normalscreen() {
+        //Reset CSS
+        //Video Style
+        var videoDiv = document.getElementById("videocon");
+        videoDiv.style.position = "";
+        videoDiv.style.top = "";
+        videoDiv.style.left = "";
+        videoDiv.style.width = "";
+        videoDiv.style.height = "";
+        videoDiv.style.maxHeight = "";
+        //Control Style
+        var controlDiv = document.getElementById("controls");
+        controlDiv.style.position = "";
+        controlDiv.style.bottom = "";
+        let left = (window.innerWidth - controls.clientWidth) / 2;
+        controlDiv.style.left = "";
+        controlDiv.style.opacity = "";
+        controlDiv.removeEventListener("mouseenter", setControlOpacity1, false);
+        controlDiv.removeEventListener("mouseleave", setControlOpacity0, false);
+    }
+
+    function getName() {
+        let episodeName = document.getElementsByClassName("c")[0].textContent.split("\n")[0];
+        return episodeName;
+    }
+
+    function showOverlay(overlayObj){
+        const containerDiv = document.createElement("div");
+        let opacity = 0;
+        containerDiv.setAttribute("id", overlayObj.id);
+        containerDiv.style.maxWidth = "32%";
+        containerDiv.style.paddingRight = "2em";
+        containerDiv.style.paddingLeft = "2em";
+        containerDiv.style.position = "absolute";
+        if(overlayObj.border) containerDiv.style.border = overlayObj.border;
+        containerDiv.style.zIndex = Number.MAX_SAFE_INTEGER;
+        containerDiv.style.fontFamily = "sans-serif";
+        containerDiv.style.fontSize = "2.1em";
+        containerDiv.style.textAlign = "center";
+        if(overlayObj.top) containerDiv.style.top = overlayObj.top;
+        if(overlayObj.right) containerDiv.style.right = overlayObj.right;
+        if(overlayObj.left) containerDiv.style.left = overlayObj.left;
+        if(overlayObj.bottom) containerDiv.style.bottom = overlayObj.bottom;
+        if(overlayObj.borderLeft) containerDiv.style.borderLeft = overlayObj.borderLeft;
+        containerDiv.style.background = "linear-gradient(0deg,#333333, #505050)";
+        containerDiv.style.opacity = opacity.toString();
+        const episodeLabel = document.createElement("p");
+        episodeLabel.style.color = "white";
+        if(overlayObj.text){
+            const textNode = document.createTextNode(overlayObj.text);
+            episodeLabel.appendChild(textNode);
+        }
+
+        containerDiv.appendChild(episodeLabel);
+        document.getElementById("videocon").appendChild(containerDiv);
+
+        // animate
+        let accumulatedTicks = 0;
+        const tickrate = 5;
+        const maxTickCount = Math.round(overlayObj.fadeduration * 1000 / tickrate);
+
+        let fadeInTimer = setInterval(() => {
+            accumulatedTicks += tickrate;
+            if (accumulatedTicks >= overlayObj.fadeduration * 1000) {
+                accumulatedTicks = 0;
+                clearInterval(fadeInTimer);
+                setTimeout(() => {
+                    let fadeOutTimer = setInterval(() => {
+                        accumulatedTicks += tickrate;
+                        if (accumulatedTicks >= overlayObj.fadeduration * 1000) {
+                            accumulatedTicks = 0;
+                            clearInterval(fadeOutTimer);
+                            containerDiv.style.display = "none";
+                        }
+                        opacity -= 1 / maxTickCount;
+                        containerDiv.style.opacity = opacity.toString();
+                    }, tickrate);
+                }, overlayObj.overlayduration * 1000);
+            }
+            opacity += 1 / maxTickCount;
+            containerDiv.style.opacity = opacity.toString();
+        }, tickrate);
+    }
+
+    function clearSpeedPopup(){
+        let speedDiv = document.getElementById("speedDiv");
+        speedDiv.parentNode.removeChild(speedDiv);
+    }
+
     console.log("Jump to Script");
+
     //Get the needed variables...
     var video = document.getElementById("videodiv");
     var nextLink, prevLink;
@@ -145,13 +151,21 @@ function showEpisodeTitle(durationInSeconds, fadeDuration) {
     }
 
     //Was fullscreen used before?
-    if (localStorage.getItem("fullscreen") === "true") {
-        fullscreen();
-    }
-
-    //Display episode title
     if (localStorage.getItem("fullscreen")) {
-        showEpisodeTitle(DISPLAY_TITLE_DURATION, FADE_TITLE_DURATION);
+        fullscreen();
+        //Show Episode Title
+        let node = getName();
+        let overlayObj = {
+            id: "titleOverlay",
+            top: "2%",
+            left: "2%",
+            border: "1px solid #696969",
+            borderLeft: "0.5em solid #e81e30",
+            fadeduration: 1,
+            overlayduration: 4,
+            text: node
+        }
+        showOverlay(overlayObj);
     }
 
     //Video events
@@ -163,7 +177,7 @@ function showEpisodeTitle(durationInSeconds, fadeDuration) {
     video.onvolumechange = function () {
         localStorage.setItem("volume", video.volume);
     };
-    //Set volume and playbackrate as soon as video starts playing and display episode title
+    //Set volume and playbackrate as soon as video starts playing
     video.onplaying = function () {
         if (localStorage.getItem("volume") !== null) {
             video.volume = localStorage.getItem("volume");
@@ -176,6 +190,7 @@ function showEpisodeTitle(durationInSeconds, fadeDuration) {
             localStorage.setItem("playrate", video.playbackRate);
         };
     };
+
     document.addEventListener("keydown", keyDownTextField, false);
 
     function keyDownTextField(e) {
@@ -202,10 +217,38 @@ function showEpisodeTitle(durationInSeconds, fadeDuration) {
                 case 83: // "s"
                     video.playbackRate = video.playbackRate = (Math.round((video.playbackRate - 0.1)*100)/100);
                     console.log("Set video speed to: " + video.playbackRate);
+                    try{
+                        clearSpeedPopup();
+                    } catch (e){}
+                    var speedOverlayDown = {
+                        id: "speedDiv",
+                        top: "2%",
+                        right: "2%",
+                        border: "1px solid #696969",
+                        borderLeft: "0.5em solid #ffffff",
+                        fadeduration: 0.3,
+                        overlayduration: 1,
+                        text: video.playbackRate
+                    }
+                    showOverlay(speedOverlayDown);
                     break;
                 case 68: // "d"
                     video.playbackRate = video.playbackRate = (Math.round((video.playbackRate + 0.1)*100)/100);
                     console.log("Set video speed to: " + video.playbackRate);
+                    try{
+                        clearSpeedPopup();
+                    } catch (e){}
+                    var speedOverlayUp = {
+                        id: "speedDiv",
+                        top: "2%",
+                        right: "2%",
+                        border: "1px solid #696969",
+                        borderLeft: "0.5em solid #ffffff",
+                        fadeduration: 0.3,
+                        overlayduration: 1,
+                        text: video.playbackRate
+                    }
+                    showOverlay(speedOverlayUp);
                     break;
                 case 38: // "Arrow Up"
                     try {
