@@ -171,19 +171,6 @@
     //Was fullscreen used before?
     if (localStorage.getItem("fullscreen")) {
         fullscreen();
-    }
-
-    //Video events
-    //At the End
-    video.onended = function () {
-        changeEpisode(nextLink);
-    };
-    //Safe volume
-    video.onvolumechange = function () {
-        localStorage.setItem("volume", video.volume);
-    };
-    //Set volume and playbackrate as soon as video starts playing
-    video.onplaying = function () {
         //Show Episode Title
         let node = getName();
         let overlayObj = {
@@ -197,6 +184,19 @@
             text: node
         }
         showOverlay(overlayObj);
+    }
+
+    //Video events
+    //At the End
+    video.onended = function () {
+        changeEpisode(nextLink);
+    };
+    //Safe volume
+    video.onvolumechange = function () {
+        localStorage.setItem("volume", video.volume);
+    };
+    //Set volume and playbackrate as soon as video starts playing
+    video.onplaying = function () {
         if (localStorage.getItem("volume") !== null) {
             video.volume = localStorage.getItem("volume");
         }
