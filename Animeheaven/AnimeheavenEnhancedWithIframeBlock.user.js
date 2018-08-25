@@ -10,9 +10,6 @@
 (function () {
     'use strict';
 
-    const DISPLAY_TITLE_DURATION = 4;
-    const FADE_TITLE_DURATION = 1;
-
     function changeEpisode(url) {
         if (typeof (url) != "undefined") {
             window.location.href = url;
@@ -76,45 +73,50 @@
         return episodeName;
     }
 
-    function showSpeed(durationInSeconds, fadeDuration, speed){
+    function showOverlay(overlayObj){
         const containerDiv = document.createElement("div");
         let opacity = 0;
-        containerDiv.setAttribute("id", "speedDiv");
+        containerDiv.setAttribute("id", overlayObj.id);
         containerDiv.style.maxWidth = "32%";
         containerDiv.style.paddingRight = "2em";
         containerDiv.style.paddingLeft = "2em";
-        containerDiv.style.position = "fixed";
-        containerDiv.style.border = "1px solid #696969";
-        containerDiv.style.zIndex = "99999";
+        containerDiv.style.position = "absolute";
+        if(overlayObj.border) containerDiv.style.border = overlayObj.border;
+        containerDiv.style.zIndex = Number.MAX_SAFE_INTEGER;
         containerDiv.style.fontFamily = "sans-serif";
         containerDiv.style.fontSize = "2.1em";
         containerDiv.style.textAlign = "center";
-        containerDiv.style.top = "2%";
-        containerDiv.style.right = "2%";
-        containerDiv.style.borderLeft = "0.5em solid #ffffff";
+        if(overlayObj.top) containerDiv.style.top = overlayObj.top;
+        if(overlayObj.right) containerDiv.style.right = overlayObj.right;
+        if(overlayObj.left) containerDiv.style.left = overlayObj.left;
+        if(overlayObj.bottom) containerDiv.style.bottom = overlayObj.bottom;
+        if(overlayObj.borderLeft) containerDiv.style.borderLeft = overlayObj.borderLeft;
         containerDiv.style.background = "linear-gradient(0deg,#333333, #505050)";
         containerDiv.style.opacity = opacity.toString();
         const episodeLabel = document.createElement("p");
         episodeLabel.style.color = "white";
-        const textNode = document.createTextNode(speed);
-        episodeLabel.appendChild(textNode);
+        if(overlayObj.text){
+            const textNode = document.createTextNode(overlayObj.text);
+            episodeLabel.appendChild(textNode);
+        }
+
         containerDiv.appendChild(episodeLabel);
-        document.body.insertBefore(containerDiv, document.body.childNodes[0]);
+        document.getElementById("videocon").appendChild(containerDiv);
 
         // animate
         let accumulatedTicks = 0;
         const tickrate = 5;
-        const maxTickCount = Math.round(fadeDuration * 1000 / tickrate);
+        const maxTickCount = Math.round(overlayObj.fadeduration * 1000 / tickrate);
 
         let fadeInTimer = setInterval(() => {
             accumulatedTicks += tickrate;
-            if (accumulatedTicks >= fadeDuration * 1000) {
+            if (accumulatedTicks >= overlayObj.fadeduration * 1000) {
                 accumulatedTicks = 0;
                 clearInterval(fadeInTimer);
                 setTimeout(() => {
                     let fadeOutTimer = setInterval(() => {
                         accumulatedTicks += tickrate;
-                        if (accumulatedTicks >= fadeDuration * 1000) {
+                        if (accumulatedTicks >= overlayObj.fadeduration * 1000) {
                             accumulatedTicks = 0;
                             clearInterval(fadeOutTimer);
                             containerDiv.style.display = "none";
@@ -122,7 +124,7 @@
                         opacity -= 1 / maxTickCount;
                         containerDiv.style.opacity = opacity.toString();
                     }, tickrate);
-                }, durationInSeconds * 1000);
+                }, overlayObj.overlayduration * 1000);
             }
             opacity += 1 / maxTickCount;
             containerDiv.style.opacity = opacity.toString();
@@ -132,61 +134,6 @@
     function clearSpeedPopup(){
         let speedDiv = document.getElementById("speedDiv");
         speedDiv.parentNode.removeChild(speedDiv);
-    }
-
-    function showEpisodeTitle(durationInSeconds, fadeDuration) {
-        // retrieve episode name
-        const name = getName();
-        // display episode name
-        let opacity = 0;
-        const containerDiv = document.createElement("div");
-        containerDiv.style.maxWidth = "32%";
-        containerDiv.style.paddingRight = "2em";
-        containerDiv.style.paddingLeft = "2em";
-        containerDiv.style.position = "fixed";
-        containerDiv.style.border = "1px solid #696969";
-        containerDiv.style.zIndex = "99999";
-        containerDiv.style.fontFamily = "sans-serif";
-        containerDiv.style.fontSize = "2.1em";
-        containerDiv.style.textAlign = "center";
-        containerDiv.style.top = "2%";
-        containerDiv.style.left = "2%";
-        containerDiv.style.borderLeft = "0.5em solid #e81e30";
-        containerDiv.style.background = "linear-gradient(0deg,#333333, #505050)";
-        containerDiv.style.opacity = opacity.toString();
-        const episodeLabel = document.createElement("p");
-        episodeLabel.style.color = "white";
-        const textNode = document.createTextNode(name);
-        episodeLabel.appendChild(textNode);
-        containerDiv.appendChild(episodeLabel);
-        document.body.insertBefore(containerDiv, document.body.childNodes[0]);
-
-        // animate
-        let accumulatedTicks = 0;
-        const tickrate = 5;
-        const maxTickCount = Math.round(fadeDuration * 1000 / tickrate);
-
-        let fadeInTimer = setInterval(() => {
-            accumulatedTicks += tickrate;
-            if (accumulatedTicks >= fadeDuration * 1000) {
-                accumulatedTicks = 0;
-                clearInterval(fadeInTimer);
-                setTimeout(() => {
-                    let fadeOutTimer = setInterval(() => {
-                        accumulatedTicks += tickrate;
-                        if (accumulatedTicks >= fadeDuration * 1000) {
-                            accumulatedTicks = 0;
-                            clearInterval(fadeOutTimer);
-                            containerDiv.style.display = "none";
-                        }
-                        opacity -= 1 / maxTickCount;
-                        containerDiv.style.opacity = opacity.toString();
-                    }, tickrate);
-                }, durationInSeconds * 1000);
-            }
-            opacity += 1 / maxTickCount;
-            containerDiv.style.opacity = opacity.toString();
-        }, tickrate);
     }
 
     function iframeCleaner(){
@@ -222,13 +169,8 @@
     }
 
     //Was fullscreen used before?
-    if (localStorage.getItem("fullscreen") === "true") {
-        fullscreen();
-    }
-
-    //Display episode title
     if (localStorage.getItem("fullscreen")) {
-        showEpisodeTitle(DISPLAY_TITLE_DURATION, FADE_TITLE_DURATION);
+        fullscreen();
     }
 
     //Video events
@@ -240,8 +182,21 @@
     video.onvolumechange = function () {
         localStorage.setItem("volume", video.volume);
     };
-    //Set volume and playbackrate as soon as video starts playing and display episode title
+    //Set volume and playbackrate as soon as video starts playing
     video.onplaying = function () {
+        //Show Episode Title
+        let node = getName();
+        let overlayObj = {
+            id: "titleOverlay",
+            top: "2%",
+            left: "2%",
+            border: "1px solid #696969",
+            borderLeft: "0.5em solid #e81e30",
+            fadeduration: 1,
+            overlayduration: 4,
+            text: node
+        }
+        showOverlay(overlayObj);
         if (localStorage.getItem("volume") !== null) {
             video.volume = localStorage.getItem("volume");
         }
@@ -253,6 +208,7 @@
             localStorage.setItem("playrate", video.playbackRate);
         };
     };
+
     document.addEventListener("keydown", keyDownTextField, false);
 
     function keyDownTextField(e) {
@@ -282,7 +238,17 @@
                     try{
                         clearSpeedPopup();
                     } catch (e){}
-                    showSpeed(2,1,video.playbackRate);
+                    var speedOverlayDown = {
+                        id: "speedDiv",
+                        top: "2%",
+                        right: "2%",
+                        border: "1px solid #696969",
+                        borderLeft: "0.5em solid #ffffff",
+                        fadeduration: 0.3,
+                        overlayduration: 1,
+                        text: video.playbackRate
+                    }
+                    showOverlay(speedOverlayDown);
                     break;
                 case 68: // "d"
                     video.playbackRate = video.playbackRate = (Math.round((video.playbackRate + 0.1)*100)/100);
@@ -290,7 +256,17 @@
                     try{
                         clearSpeedPopup();
                     } catch (e){}
-                    showSpeed(2,1,video.playbackRate);
+                    var speedOverlayUp = {
+                        id: "speedDiv",
+                        top: "2%",
+                        right: "2%",
+                        border: "1px solid #696969",
+                        borderLeft: "0.5em solid #ffffff",
+                        fadeduration: 0.3,
+                        overlayduration: 1,
+                        text: video.playbackRate
+                    }
+                    showOverlay(speedOverlayUp);
                     break;
                 case 38: // "Arrow Up"
                     try {
