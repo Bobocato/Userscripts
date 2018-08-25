@@ -1,4 +1,5 @@
 # Animeheaven-Enhanced
+
 A simple userscript that enables autoplay, auto fullscreen and keyboard controls on Animeheaven!
 
 ## Autoplay 
@@ -13,7 +14,7 @@ When the next episode will load in fullscreen there will be a popup showing the 
 If you have an option to change the playbackrate with an extension like <a href="https://github.com/igrigorik/videospeed">this</a> the speed you set will be stored an reapplied for the next video.
 
 ## Volume
-The voume you set will be saved an reapplied when you watch the next episode. The volumebar will not be affected by the change.
+The volume you set will be saved an reapplied when you watch the next episode. The volumebar will not be affected by the change.
 
 ## Keycodes
 "n" = next epsiode <br>
