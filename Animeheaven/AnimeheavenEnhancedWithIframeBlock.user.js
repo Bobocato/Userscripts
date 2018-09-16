@@ -4,6 +4,7 @@
 // @description  Autoplay, fullscreen and keyboard controls for "animeheaven.eu"
 // @author       Bobocato
 // @match        http://animeheaven.eu/watch.php*
+// @match        http://www.animeheaven.eu/watch.php*
 // @grant        none
 // ==/UserScript==
 

@@ -4,6 +4,7 @@
 // @description  Autoplay, fullscreen and keyboard controls for "animeheaven.eu"
 // @author       Bobocato
 // @match        http://animeheaven.eu/watch.php*
+// @match        http://www.animeheaven.eu/watch.php*
 // @grant        none
 // ==/UserScript==
 
@@ -136,7 +137,25 @@
         speedDiv.parentNode.removeChild(speedDiv);
     }
 
+    function iframeCleaner(){
+        let iframes = document.getElementsByTagName("iframe");
+        console.log(iframes);
+        for (let iframe of iframes){
+            if(iframe.src.includes("chatango") || iframe.src.includes("facebook") || iframe.src.includes("google") || iframe.src.includes("twitter")|| iframe.title.includes("Twitter")){
+                iframe.parentNode.removeChild(iframe);
+                cleaned++;
+                console.log("Cleaned: " + cleaned);
+                if(iframes.length == 0 || cleaned >= 10){
+                    clearInterval(iframeInterval);
+                }
+            }
+        }
+    }
+
     console.log("Jump to Script");
+    //Remove Chatango and Comments
+    var cleaned = 0;
+    var iframeInterval = window.setInterval(iframeCleaner, 1000);
 
     //Get the needed variables...
     var video = document.getElementById("videodiv");
@@ -268,11 +287,24 @@
                     break;
                 case 39: // "Arrow Right"
                     video.currentTime = video.currentTime + 5;
-                    console.log("Current Time: " + (Math.round(video.currentTime / 60)));
+                    console.log("Current Time: " + (Math.round(video.currentTime / 60)) + ":" + video.currentTime % 60);
                     break;
                 case 77: // "m"
                     video.currentTime = video.currentTime + 85;
-                    console.log("Current Time: " + (Math.round(video.currentTime / 60)));
+                    console.log("Current Time: " + (Math.round(video.currentTime / 60)) + ":" + video.currentTime % 60);
+                    break;
+                case 96: //Numpad 0
+                case 97: //Numpad 1
+                case 98: //Numpad 2
+                case 99: //Numpad 3
+                case 100: //Numpad 4
+                case 101: //Numpad 5
+                case 102: //Numpad 6
+                case 103: //Numpad 7
+                case 104: //Numpad 8
+                case 105: //Numpad 9
+                    video.currentTime = video.duration /100 * ((e.which - 96)*10);
+                    console.log("Current Time: " + video.currentTime + " seconds. This means " +(e.which - 96) *10 +"% of the episode are over")
                     break;
                 default:
                     return; // exit this handler for other keys
