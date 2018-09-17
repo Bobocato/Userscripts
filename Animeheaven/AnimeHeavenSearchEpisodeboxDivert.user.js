@@ -5,6 +5,7 @@
 // @description  When searching the Episodebox will send you to the episode overview
 // @author       Bobocato
 // @match        http://animeheaven.eu/search.php*
+// @match        http://www.animeheaven.eu/search.php*
 // @grant        none
 // ==/UserScript==
 

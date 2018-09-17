@@ -5,6 +5,8 @@
 // @author       Bobcat
 // @match        http://animeheaven.eu*
 // @match        http://animeheaven.eu/*
+// @match        http://www.animeheaven.eu*
+// @match        http://www.animeheaven.eu/*
 // @grant        none
 // ==/UserScript==
 
