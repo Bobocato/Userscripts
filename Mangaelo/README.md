@@ -10,7 +10,7 @@ Use the left and right arrowkeys to navigate between chapters
 # Autonext
 When the page is scrolled to its bottom the script automatically loads the next chapter.
 If you scroll up again the timer will be deleted.
-You can disable this with the field "autoload" on top of the document. Just set it from ´true´ to ´false´.
+You can disable this with the field "autoload" on top of the document. Just set it from `true` to `false`.
 
 # Usage
 I have written the script for Tamermonkey in Chrome. I don't intend to test it an any other browser. If there are issues let me know and i will look into it :-)
