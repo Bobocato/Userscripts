@@ -20,6 +20,7 @@ The volume you set will be saved an reapplied when you watch the next episode. T
 "n" = next epsiode <br>
 "b" = previous episode <br>
 "v" = toggle fullscreen <br>
+"f" = toggle the browsers fullscreen (special request by jryan15)<br>
 "m" = skip ahead for 85 seconds (perfect for op and ed)<br>
 "s" = speed decreased by 0.1<br>
 "d" = speed increased by 0.1<br>
