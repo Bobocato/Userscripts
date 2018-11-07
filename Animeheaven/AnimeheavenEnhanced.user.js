@@ -216,6 +216,10 @@
         showOverlay(overlayObj);
     }
 
+    //Remove Scrollbar
+    var sheet = window.document.styleSheets[0];
+    sheet.insertRule('::-webkit-scrollbar {display: none;}', sheet.cssRules.length);
+
     //Video events
     //At the End
     video.onended = function () {
@@ -224,6 +228,7 @@
     //Safe volume
     video.onvolumechange = function () {
         localStorage.setItem("volume", video.volume);
+        document.getElementsByClassName("volume3")[0].style.width = (video.volume * 100) + "px";
     };
     //Set volume and playbackrate as soon as video starts playing
     video.onplaying = function () {
