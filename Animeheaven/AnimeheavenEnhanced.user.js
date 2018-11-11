@@ -200,7 +200,17 @@
 
     //Remove Scrollbar
     var sheet = window.document.styleSheets[0];
-    sheet.insertRule('::-webkit-scrollbar {display: none;}', sheet.cssRules.length);
+    try{
+        sheet.insertRule('::-webkit-scrollbar { width: 0px; background: transparent;}', sheet.cssRules.length);
+    } catch (e){
+        console.log(e)
+    }
+     try{
+        sheet.insertRule('@-moz-document url-prefix() {html,body{overflow: hidden !important;}}', sheet.cssRules.length);
+    } catch (e){
+        console.log(e)
+    }
+
 
     //Video events
     //At the End
