@@ -166,25 +166,7 @@
         speedDiv.parentNode.removeChild(speedDiv);
     }
 
-    function iframeCleaner(){
-        let iframes = document.getElementsByTagName("iframe");
-        console.log(iframes);
-        for (let iframe of iframes){
-            if(iframe.src.includes("chatango") || iframe.src.includes("facebook") || iframe.src.includes("google") || iframe.src.includes("twitter")|| iframe.title.includes("Twitter")){
-                iframe.parentNode.removeChild(iframe);
-                cleaned++;
-                console.log("Cleaned: " + cleaned);
-                if(iframes.length == 0 || cleaned >= 10){
-                    clearInterval(iframeInterval);
-                }
-            }
-        }
-    }
-
     console.log("Jump to Script");
-    //Remove Chatango and Comments
-    var cleaned = 0;
-    var iframeInterval = window.setInterval(iframeCleaner, 1000);
 
     //Get the needed variables...
     var video = document.getElementById("videodiv");
