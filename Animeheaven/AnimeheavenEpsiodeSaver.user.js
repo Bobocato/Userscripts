@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Animeheaven Epsiode saver
 // @version      1.0
-// @description  Saves watched Episodes on Animeheaven
+// @description  Saves watched Episodes on Animeheaven and remembers the timing
 // @author       Bobcat
 // @match        http://animeheaven.eu*
 // @match        http://animeheaven.eu/*
@@ -125,14 +125,17 @@ function addEpisodeBox(){
             }
         }
 
-    } else if(currentUrl.substr(0,32) == "http://animeheaven.eu/watch.php?"){
+    }
+    else if(currentUrl.substr(0,32) == "http://animeheaven.eu/watch.php?"){
         console.log("Episode Page");
         var episodeName = getName();
         var episodeNr = getEpisode();
+        var video = document.getElementById("videodiv");
+        var refTime = video.currentTime;
+        var currTime;
+
         if(localStorage.getItem("animeList") === null){
             let emptyList = [];
-            console.log(emptyList);
-            console.log(JSON.stringify(emptyList));
             localStorage.setItem("animeList", JSON.stringify(emptyList));
         }
         let storedList = JSON.parse(localStorage.getItem("animeList"));
@@ -140,7 +143,15 @@ function addEpisodeBox(){
         for (let i = 0; i < storedList.length; i++){
             if(storedList[i].name == episodeName){
                 exists = true;
-                storedList[i].episode = episodeNr;
+                if(storedList[i].episode != episodeNr){
+                    storedList[i].episode = episodeNr;
+                } else {
+                    try {
+                        video.currentTime = storedList[i].timestamp;
+                    } catch (e){
+                        console.log("Es ist kein Timestamp gesetzt");
+                    }
+                }
                 localStorage.setItem("animeList", JSON.stringify(storedList));
             }
         }
@@ -149,6 +160,19 @@ function addEpisodeBox(){
             storedList[length] = {name:episodeName, episode:episodeNr};
             localStorage.setItem("animeList", JSON.stringify(storedList));
         }
+
+        video.ontimeupdate = function() {
+            currTime = video.currentTime;
+            if (currTime - refTime > 10 || currTime - refTime < -10){
+                refTime = currTime;
+                for (let i = 0; i < storedList.length; i++){
+                    if(storedList[i].name == episodeName){
+                        storedList[i].timestamp = refTime;
+                        localStorage.setItem("animeList", JSON.stringify(storedList));
+                    }
+                }
+            }
+        };
     } else if(currentUrl.substr(0, 32) != "http://animeheaven.eu/staff.php"){
         addEpisodeBox();
     }
