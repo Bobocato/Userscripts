@@ -10,6 +10,18 @@
 // @grant        none
 // ==/UserScript==
 
+function checkForBan(){
+    var tempNodes = document.getElementsByClassName("now2");
+    if(tempNodes){
+        for (let node of tempNodes){
+            if(node.textContent === "You have triggered abuse protection. Wait 60 seconds before continuing."){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 function getName(){
     var currentUrl = window.location.href;
     var begin = currentUrl.indexOf("?a=");
@@ -147,7 +159,11 @@ function addEpisodeBox(){
                     storedList[i].episode = episodeNr;
                 } else {
                     try {
-                        video.currentTime = storedList[i].timestamp;
+                        if(!checkForBan){
+                            video.currentTime = storedList[i].timestamp;
+                        } else {
+                            storedList[i].timestamp = 0;
+                        }
                     } catch (e){
                         console.log("Es ist kein Timestamp gesetzt");
                     }
