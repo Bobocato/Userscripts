@@ -7,7 +7,8 @@
 // @grant        none
 // ==/UserScript==
 
-const equalText = "Skip Ad";
+const equalText1 = "Skip Ads";
+const equalText2 = "Skip Ad";
 
 function addNewStyle(newStyle) {
     var styleElement = document.getElementById('styles_js');
@@ -22,9 +23,9 @@ function addNewStyle(newStyle) {
 
 function skipAd(){
     console.log("Tried to skip a ad");
-    if(document.getElementsByClassName("videoAdUiSkipButton").length > 0){
-        if(document.getElementsByClassName("videoAdUiSkipButton")[0].childNodes[0].textContent === equalText){
-            document.getElementsByClassName("videoAdUiSkipButton")[0].click();
+    if(document.getElementsByClassName("ytp-ad-skip-button").length > 0){
+        if(document.getElementsByClassName("ytp-ad-skip-button")[0].childNodes[0].textContent === equalText1 || document.getElementsByClassName("ytp-ad-skip-button")[0].childNodes[0].textContent === equalText2){
+            document.getElementsByClassName("ytp-ad-skip-button")[0].click();
         } else {
             setTimeout(skipAd(), 1000);
         }
@@ -33,7 +34,7 @@ function skipAd(){
 
 (function() {
     'use strict';
-    addNewStyle('.controls {display:none !important;}');
+    addNewStyle('.ytp-ad-overlay-slot {display:none !important;}');
     setInterval(function (){
         if(window.location.href.substring(0,30) == "https://www.youtube.com/watch?"){
             skipAd();
